@@ -1,4 +1,6 @@
-﻿namespace Verizon.Connect.Domain.Core.Models
+﻿using System;
+
+namespace Verizon.Connect.Domain.Core.Models
 {
     public abstract class Entity
     {

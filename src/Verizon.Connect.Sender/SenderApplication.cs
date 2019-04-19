@@ -26,15 +26,13 @@
 
             while (true)
             {
-                PlotEntity plotEntity = GenerateRandoPlot();
-                //await plotAppService.Register(plotEntity);
-                Console.WriteLine($"Lat: {plotEntity.Lat}, Lon:{plotEntity.Lon}, EventCode:{plotEntity.EventCode}, V:{plotEntity.VId}, T:{plotEntity.TimeStamp}");
-
+                PlotEntity plotEntity = GenerateRandomPlot();
+                await plotAppService.Register(plotEntity);
                 await Task.Delay(interval);
             }
         }
 
-        private PlotEntity GenerateRandoPlot()
+        private PlotEntity GenerateRandomPlot()
         {
             // Start
             if (lastTimeStamp == 0)

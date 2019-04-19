@@ -1,5 +1,6 @@
 ﻿namespace Verizon.Connect.Domain.Plot.Models
 {
+    using System;
     using Verizon.Connect.Domain.Core.Models;
     using Verizon.Connect.Domain.Plot.Enums;
 
