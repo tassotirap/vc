@@ -7,10 +7,11 @@
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Plot.Events;
     using Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus;
+    using Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus.Options;
 
-    public class DIBootStrapper
+    public static class DIBootStrapper
     {
-        public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
+        public static void AddSenderServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<RabbitMQOptions>(configuration.GetSection("RabbitMQ"));
 
@@ -20,9 +21,9 @@
             services.AddSingleton<IPlotAppService, PlotAppService>();
 
             // Application
-            services.AddSingleton<SenderApplication>();
+            services.AddSingleton<SenderService>();
 
-            
+
         }
     }
 }

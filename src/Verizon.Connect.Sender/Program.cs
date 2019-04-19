@@ -3,7 +3,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using System;
-    using System.IO;
     using System.Threading.Tasks;
     using Verizon.Connect.Sender.DI;
 
@@ -11,8 +10,8 @@
     {
         static async Task Main(string[] args)
         {
-            var (vehicle, interval) = GetVehicleAndInterval(args);
-            if(vehicle == 0)
+            (int vehicle, int interval) = GetVehicleAndInterval(args);
+            if (vehicle == 0)
             {
                 throw new ArgumentException("Vehicle or Iterval should greater than 0");
             }
@@ -22,18 +21,18 @@
             IConfiguration configuration = GetConfiguration();
             IServiceCollection serviceCollection = new ServiceCollection();
 
-            DIBootStrapper.RegisterServices(serviceCollection, configuration);
+            serviceCollection.AddSenderServices(configuration);
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-            SenderApplication senderApplication = serviceProvider.GetService<SenderApplication>();
+            SenderService senderApplication = serviceProvider.GetService<SenderService>();
             await senderApplication.Start(vehicle, interval);
         }
 
         private static IConfiguration GetConfiguration()
         {
             return new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
         }

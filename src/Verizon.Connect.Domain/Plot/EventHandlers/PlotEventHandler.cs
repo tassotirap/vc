@@ -5,11 +5,11 @@
     using Verizon.Connect.Domain.Plot.Events;
     using Verizon.Connect.Domain.Plot.Repositories;
 
-    public class PlotCommandHandler : IEventRecived<RegisterNewPlotEvent>
+    public class PlotEventHandler : IEventRecived<RegisterNewPlotEvent>
     {
         private readonly IPlotRepository plotRepository;
 
-        public PlotCommandHandler(IPlotRepository plotRepository)
+        public PlotEventHandler(IPlotRepository plotRepository)
         {
             this.plotRepository = plotRepository;
         }

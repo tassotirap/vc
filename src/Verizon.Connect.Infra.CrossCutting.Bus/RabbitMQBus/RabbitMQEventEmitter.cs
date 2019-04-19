@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using RabbitMQ.Client;
-namespace Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus
+﻿namespace Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus
 {
+    using Microsoft.Extensions.Options;
+    using Newtonsoft.Json;
+    using RabbitMQ.Client;
     using System;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
     using System.Threading.Tasks;
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Core.Events;
+    using Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus.Options;
 
     public class RabbitMQEventEmitter<T> :
         IEventEmitter<T>,

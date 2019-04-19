@@ -1,4 +1,4 @@
-﻿namespace Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus
+﻿namespace Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus.Options
 {
     public class RabbitMQOptions
     {
@@ -7,7 +7,5 @@
         public string Exchange { get; set; }
 
         public string QueueName { get; set; }
-
-        public bool ConsumerEnabled { get; set; }
     }
 }

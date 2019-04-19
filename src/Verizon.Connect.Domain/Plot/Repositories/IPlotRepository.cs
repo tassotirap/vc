@@ -9,6 +9,6 @@
     {
         Task Add(PlotEntity plotEntity);
 
-        Task<IEnumerable<PlotQueryDto>> QueryByTimeFrame(string initialTimeStamp, string finalTimeStamp);
+        Task<IEnumerable<PlotQueryDto>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp);
     }
 }

@@ -5,13 +5,19 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Domain.Core", "src\Verizon.Connect.Domain.Core\Verizon.Connect.Domain.Core.csproj", "{BBD87C8D-CBA6-4D5D-A861-B95AC2CC7004}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.Domain", "src\Verizon.Connect.Domain\Verizon.Connect.Domain.csproj", "{C98ACF4F-48D5-4A79-9CA8-B1A20BE5A5CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Domain", "src\Verizon.Connect.Domain\Verizon.Connect.Domain.csproj", "{C98ACF4F-48D5-4A79-9CA8-B1A20BE5A5CF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Application", "src\Verizon.Connect.Application\Verizon.Connect.Application.csproj", "{8338C5B5-3CC4-42C0-A667-19BC2ECF5BDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.Sender", "src\Verizon.Connect.Sender\Verizon.Connect.Sender.csproj", "{5DFB4A29-8D0D-432D-9420-9E8B97266BF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Sender", "src\Verizon.Connect.Sender\Verizon.Connect.Sender.csproj", "{5DFB4A29-8D0D-432D-9420-9E8B97266BF8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Infra.CrossCutting.Bus", "src\Verizon.Connect.Infra.CrossCutting.Bus\Verizon.Connect.Infra.CrossCutting.Bus.csproj", "{C0BD3103-C4CE-4E2F-93A4-A8076306D9F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.Receiver", "src\Verizon.Connect.Receiver\Verizon.Connect.Receiver.csproj", "{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.Infra.Data", "Verizon.Connect.Infra.Data\Verizon.Connect.Infra.Data.csproj", "{7D8E0BFD-0F37-4232-A287-3C05A77DB153}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.QueryService", "src\Verizon.Connect.QueryService\Verizon.Connect.QueryService.csproj", "{9B388392-8A96-44A1-96E4-1A09F7D93E47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{C0BD3103-C4CE-4E2F-93A4-A8076306D9F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0BD3103-C4CE-4E2F-93A4-A8076306D9F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0BD3103-C4CE-4E2F-93A4-A8076306D9F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D8E0BFD-0F37-4232-A287-3C05A77DB153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D8E0BFD-0F37-4232-A287-3C05A77DB153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D8E0BFD-0F37-4232-A287-3C05A77DB153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D8E0BFD-0F37-4232-A287-3C05A77DB153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B388392-8A96-44A1-96E4-1A09F7D93E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B388392-8A96-44A1-96E4-1A09F7D93E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B388392-8A96-44A1-96E4-1A09F7D93E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B388392-8A96-44A1-96E4-1A09F7D93E47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

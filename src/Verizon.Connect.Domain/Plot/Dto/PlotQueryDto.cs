@@ -4,7 +4,7 @@
 
     public class PlotQueryDto
     {
-        public int VId { get; set; }
+        public string VId { get; set; }
 
         public string Lat { get; set; }
 

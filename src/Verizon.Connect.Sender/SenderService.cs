@@ -6,7 +6,7 @@
     using Verizon.Connect.Domain.Plot.Enums;
     using Verizon.Connect.Domain.Plot.Models;
 
-    public class SenderApplication
+    public class SenderService
     {
         private readonly IPlotAppService plotAppService;
         private readonly Random random;
@@ -14,7 +14,7 @@
         private EventCode currentEventCode;
         private int lastTimeStamp;
 
-        public SenderApplication(IPlotAppService plotAppService)
+        public SenderService(IPlotAppService plotAppService)
         {
             this.plotAppService = plotAppService;
             random = new Random();
@@ -73,7 +73,7 @@
                 Lat = $"la{lastTimeStamp}",
                 Lon = $"lo{lastTimeStamp}",
                 TimeStamp = $"t{lastTimeStamp}",
-                VId = $"VId{lastTimeStamp}"
+                VId = $"VId{this.vehicleId}"
             };
 
             lastTimeStamp++;

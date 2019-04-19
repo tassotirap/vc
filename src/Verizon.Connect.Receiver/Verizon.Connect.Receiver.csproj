@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Verizon.Connect.Infra.Data\Verizon.Connect.Infra.Data.csproj" />
+    <ProjectReference Include="..\Verizon.Connect.Domain.Core\Verizon.Connect.Domain.Core.csproj" />
+    <ProjectReference Include="..\Verizon.Connect.Domain\Verizon.Connect.Domain.csproj" />
+    <ProjectReference Include="..\Verizon.Connect.Infra.CrossCutting.Bus\Verizon.Connect.Infra.CrossCutting.Bus.csproj" />
+  </ItemGroup>
+</Project>

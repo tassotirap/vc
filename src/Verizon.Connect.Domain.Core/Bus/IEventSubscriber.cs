@@ -8,5 +8,7 @@
         void Subscribe(IEventRecived<T> eventRecived);
 
         void Subscribe(IEnumerable<IEventRecived<T>> eventRecived);
+
+        void StartConsumer();
     }
 }

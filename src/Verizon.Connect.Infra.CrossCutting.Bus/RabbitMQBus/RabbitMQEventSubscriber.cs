@@ -9,6 +9,7 @@
     using System.Text;
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Core.Events;
+    using Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus.Options;
 
     public class RabbitMQEventSubscriber<T> :
        IEventSubscriber<T>,
@@ -25,12 +26,6 @@
         {
             this.listEventRecived = new List<IEventRecived<T>>();
             this.options = options;
-
-            if (options.Value.ConsumerEnabled)
-            {
-                this.CreateChannel();
-                this.CreateConsumer();
-            }
         }
 
         public void Dispose()
@@ -63,8 +58,10 @@
             this.channel = this.connection.CreateModel();
         }
 
-        private void CreateConsumer()
+        public void StartConsumer()
         {
+            this.CreateChannel();
+
             this.channel.ExchangeDeclare(this.options.Value.Exchange, ExchangeType.Direct);
 
             this.channel.QueueDeclare(this.options.Value.QueueName, true, false, false, null);
