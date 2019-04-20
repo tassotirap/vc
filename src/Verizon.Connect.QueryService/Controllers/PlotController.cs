@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
+    using Verizon.Connect.Domain.Plot.Dto;
     using Verizon.Connect.Domain.Plot.Models;
     using Verizon.Connect.Domain.Plot.Repositories;
 
@@ -25,7 +26,7 @@
         }
 
         [HttpGet("{id}/{start}/{end}")]
-        public async Task<ActionResult<IEnumerable<PlotEntity>>> Get(int id, int start, int end)
+        public async Task<ActionResult<IEnumerable<PlotQueryResultDto>>> Get(int id, int start, int end)
         {
             this.logger.LogTrace($"Getting id:{id}, start:{start}, end:{end}");
 

@@ -2,7 +2,7 @@
   "profiles": {
     "Verizon.Connect.Sender": {
       "commandName": "Project",
-      "commandLineArgs": "-v 10 -interval 500"
+      "commandLineArgs": "-v 10 -interval 0"
     }
   }
 }

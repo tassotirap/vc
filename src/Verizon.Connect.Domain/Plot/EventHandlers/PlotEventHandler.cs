@@ -1,9 +1,12 @@
 ﻿namespace Verizon.Connect.Domain.Plot.EventHandlers
 {
-    using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
     using System;
     using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Logging;
+
+    using Newtonsoft.Json;
+
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Plot.Events;
     using Verizon.Connect.Domain.Plot.Models;
@@ -11,12 +14,11 @@
 
     public class PlotEventHandler : IEventRecived<RegisterPlotEvent>
     {
-        private readonly IPlotRepository plotRepository;
-
         private readonly ILogger<PlotEventHandler> logger;
 
-        public PlotEventHandler(IPlotRepository plotRepository,
-                                ILogger<PlotEventHandler> logger)
+        private readonly IPlotRepository plotRepository;
+
+        public PlotEventHandler(IPlotRepository plotRepository, ILogger<PlotEventHandler> logger)
         {
             this.plotRepository = plotRepository;
             this.logger = logger;
@@ -53,26 +55,18 @@
             }
         }
 
-        private async Task<bool> EventIgnitionOnReceived(PlotEntity entity)
-        {
-            entity.JourneyStart = entity.TimeStamp;
-            return
-                await this.plotRepository.AddLastIgnitionOn(entity.VId, entity.TimeStamp) &&
-                await this.plotRepository.Add(entity);
-        }
-
         private async Task<bool> EventIgnitionOffReceived(PlotEntity entity)
         {
-            var lastIgnitionOn = await this.plotRepository.GetLastIgnitionOn(entity.VId);
-            entity.JourneyStart = lastIgnitionOn;
-            entity.JourneyEnd = entity.TimeStamp;
+            return await this.plotRepository.Add(entity);
+        }
+
+        private async Task<bool> EventIgnitionOnReceived(PlotEntity entity)
+        {
             return await this.plotRepository.Add(entity);
         }
 
         private async Task<bool> EventMovementReceived(PlotEntity entity)
         {
-            var lastIgnitionOn = await this.plotRepository.GetLastIgnitionOn(entity.VId);
-            entity.JourneyStart = lastIgnitionOn;
             return await this.plotRepository.Add(entity);
         }
     }

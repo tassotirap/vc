@@ -1,9 +1,13 @@
 ﻿namespace Verizon.Connect.Infra.Data
 {
-    using StackExchange.Redis;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using StackExchange.Redis;
+
+    using Verizon.Connect.Domain.Plot.Dto;
+    using Verizon.Connect.Domain.Plot.Enums;
     using Verizon.Connect.Domain.Plot.Models;
     using Verizon.Connect.Domain.Plot.Repositories;
 
@@ -22,20 +26,14 @@
             return await this.redis.Add(key, plotEntity);
         }
 
-        public async Task<bool> AddLastIgnitionOn(string vId, string timeStamp)
-        {
-            return await this.redis.Add($"Plot:{vId}:LastIgnitionOn", $"{timeStamp}");
-        }
-
-        public async Task<string> GetLastIgnitionOn(string vId)
-        {
-            return await this.redis.Get<string>($"Plot:{vId}:LastIgnitionOn");
-        }
-
-        public async Task<IEnumerable<PlotEntity>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp)
+        public async Task<IEnumerable<PlotQueryResultDto>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp)
         {
             var keys = Enumerable.Range(initialTimeStamp, finalTimeStamp + 1).Select(item => (RedisKey)this.GetKey(vId, item)).ToArray();
-            return await this.redis.GetAll<PlotEntity>(keys);
+
+            var plots = await this.redis.GetAll<PlotEntity>(keys);
+
+            PlotEntity lastIgnitionOn = null;
+            return plots.Select(plot => this.PlotEntityToPlotQueryResultDto(plot, ref lastIgnitionOn));
         }
 
         private string GetKey(PlotEntity plotEntity)
@@ -51,6 +49,28 @@
         private string GetKey(int vid, int timeStamp)
         {
             return $"Plot:VId{vid}:t{timeStamp}";
+        }
+
+        private PlotQueryResultDto PlotEntityToPlotQueryResultDto(PlotEntity plotEntity, ref PlotEntity lastIgnitionOn)
+        {
+            var result = new PlotQueryResultDto(plotEntity);
+            if (plotEntity.EventCode == EventCode.IgnitionOn)
+            {
+                result.JourneyStart = plotEntity.TimeStamp;
+                lastIgnitionOn = plotEntity;
+            }
+            else if (plotEntity.EventCode == EventCode.IgnitionOff)
+            {
+                result.JourneyStart = lastIgnitionOn?.TimeStamp;
+                result.JourneyEnd = plotEntity.TimeStamp;
+                lastIgnitionOn = null;
+            }
+            else if (plotEntity.EventCode == EventCode.Movement)
+            {
+                result.JourneyStart = lastIgnitionOn?.TimeStamp;
+            }
+
+            return result;
         }
     }
 }

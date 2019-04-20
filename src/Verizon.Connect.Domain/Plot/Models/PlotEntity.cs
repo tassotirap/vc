@@ -15,10 +15,6 @@
 
         public string TimeStamp { get; set; }
 
-        public string JourneyStart { get; set; }
-
-        public string JourneyEnd { get; set; }
-
         public PlotEntity()
         {
         }

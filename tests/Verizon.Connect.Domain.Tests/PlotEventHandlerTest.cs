@@ -66,14 +66,6 @@ namespace Verizon.Connect.Domain.Tests
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:VId10:LastIgnitionOn"));
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:VId10:t1"));
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:VId10:t2"));
-
-            var movementEvent = (PlotEntity)this.plotEventRepository.Items["Plot:VId10:t1"];
-            Assert.Equal("t0", movementEvent.JourneyStart);
-            Assert.Null(movementEvent.JourneyEnd);
-
-            var ignitionOffEvent = (PlotEntity)this.plotEventRepository.Items["Plot:VId10:t2"];
-            Assert.Equal("t0", ignitionOffEvent.JourneyStart);
-            Assert.Equal("t2", ignitionOffEvent.JourneyEnd);
         }
 
         [Fact(DisplayName = "[Sucess] - Register IgnitionOn and Moviment event")]
@@ -88,10 +80,6 @@ namespace Verizon.Connect.Domain.Tests
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:VId10:t0"));
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:VId10:LastIgnitionOn"));
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:VId10:t1"));
-
-            var movementEvent = (PlotEntity)this.plotEventRepository.Items["Plot:VId10:t1"];
-            Assert.Equal("t0", movementEvent.JourneyStart);
-            Assert.Null(movementEvent.JourneyEnd);
         }
 
         [Fact(DisplayName = "[Exception] - Register IgnitionOn event")]
