@@ -1,23 +1,30 @@
 ﻿namespace Verizon.Connect.Receiver
 {
-    using Microsoft.Extensions.Hosting;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Plot.Events;
 
     public class ReceiverService : IHostedService, IDisposable
     {
-        private readonly IEventSubscriber<RegisterNewPlotEvent> eventSubscriber;
-        private readonly IEventRecived<RegisterNewPlotEvent> eventRecived;
+        private readonly IEventRecived<RegisterPlotEvent> eventReceived;
 
-        public ReceiverService(
-            IEventSubscriber<RegisterNewPlotEvent> eventSubscriber, 
-            IEventRecived<RegisterNewPlotEvent> eventRecived)
+        private readonly ILogger<ReceiverService> logger;
+
+        private readonly IEventSubscriber<RegisterPlotEvent> eventSubscriber;
+
+        public ReceiverService(IEventSubscriber<RegisterPlotEvent> eventSubscriber,
+                               IEventRecived<RegisterPlotEvent> eventReceived,
+                               ILogger<ReceiverService> logger)
         {
             this.eventSubscriber = eventSubscriber;
-            this.eventRecived = eventRecived;
+            this.eventReceived = eventReceived;
+            this.logger = logger;
         }
 
         public void Dispose()
@@ -26,14 +33,20 @@
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            eventSubscriber.Subscribe(eventRecived);
-            eventSubscriber.StartConsumer();
+            this.eventSubscriber.Subscribe(this.eventReceived);
+            this.eventSubscriber.StartConsumer();
+
+            this.logger.LogInformation("Receiver Started");
+
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            //TODO: unsubscribe
+            this.eventSubscriber.Dispose();
+
+            this.logger.LogInformation("Receiver Stoped");
+
             return Task.CompletedTask;
         }
     }

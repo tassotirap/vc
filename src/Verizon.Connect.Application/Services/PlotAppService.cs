@@ -1,6 +1,11 @@
 ﻿namespace Verizon.Connect.Application.Services
 {
     using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Logging;
+
+    using Newtonsoft.Json;
+
     using Verizon.Connect.Application.Interfaces;
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Plot.Events;
@@ -8,16 +13,26 @@
 
     public class PlotAppService : IPlotAppService
     {
-        private readonly IEventEmitter<RegisterNewPlotEvent> eventEmitter;
+        private readonly IEventEmitter<RegisterPlotEvent> eventEmitter;
 
-        public PlotAppService(IEventEmitter<RegisterNewPlotEvent> eventEmitter)
+        private readonly ILogger<PlotAppService> logger;
+
+        public PlotAppService(IEventEmitter<RegisterPlotEvent> eventEmitter, 
+                              ILogger<PlotAppService> logger)
         {
             this.eventEmitter = eventEmitter;
+            this.logger = logger;
         }
 
-        public async Task Register(PlotEntity plotEntity)
+        public Task Register(PlotEntity plotEntity)
         {
-            await this.eventEmitter.EmitAsync(new RegisterNewPlotEvent(plotEntity));
+            this.logger.LogTrace("Registering Event");
+
+            this.eventEmitter.Emit(new RegisterPlotEvent(plotEntity));
+
+            this.logger.LogTrace("Registered Event");
+
+            return Task.CompletedTask;
         }
     }
 }

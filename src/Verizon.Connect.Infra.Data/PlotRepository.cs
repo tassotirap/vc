@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Verizon.Connect.Domain.Plot.Dto;
     using Verizon.Connect.Domain.Plot.Models;
     using Verizon.Connect.Domain.Plot.Repositories;
 
@@ -17,24 +16,26 @@
             this.redis = redis;
         }
 
-        public async Task Add(PlotEntity plotEntity)
+        public async Task<bool> Add(PlotEntity plotEntity)
         {
-            string key = this.GetKey(plotEntity);
-            await this.redis.Add(key, plotEntity);
+            var key = this.GetKey(plotEntity);
+            return await this.redis.Add(key, plotEntity);
         }
 
-        public async Task<IEnumerable<PlotQueryDto>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp)
+        public async Task<bool> AddLastIgnitionOn(string vId, string timeStamp)
         {
-            RedisKey[] keys = Enumerable.Range(initialTimeStamp, finalTimeStamp).Select(item => (RedisKey)this.GetKey(vId, item)).ToArray();
-            IEnumerable<PlotEntity> result = await this.redis.GetAll<PlotEntity>(keys);
-            return result.Select(t => new PlotQueryDto
-            {
-                EventCode = t.EventCode,
-                Lat = t.Lat,
-                Lon = t.Lon,
-                TimeStamp = t.TimeStamp,
-                VId = t.VId
-            });
+            return await this.redis.Add($"Plot:{vId}:LastIgnitionOn", $"{timeStamp}");
+        }
+
+        public async Task<string> GetLastIgnitionOn(string vId)
+        {
+            return await this.redis.Get<string>($"Plot:{vId}:LastIgnitionOn");
+        }
+
+        public async Task<IEnumerable<PlotEntity>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp)
+        {
+            var keys = Enumerable.Range(initialTimeStamp, finalTimeStamp + 1).Select(item => (RedisKey)this.GetKey(vId, item)).ToArray();
+            return await this.redis.GetAll<PlotEntity>(keys);
         }
 
         private string GetKey(PlotEntity plotEntity)

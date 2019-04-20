@@ -20,13 +20,19 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Verizon.Connect.Infra.Data\Verizon.Connect.Infra.Data.csproj" />
     <ProjectReference Include="..\Verizon.Connect.Domain.Core\Verizon.Connect.Domain.Core.csproj" />
     <ProjectReference Include="..\Verizon.Connect.Domain\Verizon.Connect.Domain.csproj" />
     <ProjectReference Include="..\Verizon.Connect.Infra.CrossCutting.Bus\Verizon.Connect.Infra.CrossCutting.Bus.csproj" />
+    <ProjectReference Include="..\Verizon.Connect.Infra.Data\Verizon.Connect.Infra.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Logging.Configuration">
+      <HintPath>C:\Program Files (x86)\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.logging.configuration\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Configuration.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

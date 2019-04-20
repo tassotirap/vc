@@ -2,13 +2,16 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Verizon.Connect.Domain.Plot.Dto;
     using Verizon.Connect.Domain.Plot.Models;
 
     public interface IPlotRepository
     {
-        Task Add(PlotEntity plotEntity);
+        Task<bool> Add(PlotEntity plotEntity);
 
-        Task<IEnumerable<PlotQueryDto>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp);
+        Task<IEnumerable<PlotEntity>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp);
+
+        Task<bool> AddLastIgnitionOn(string vId, string timeStamp);
+
+        Task<string> GetLastIgnitionOn(string vId);
     }
 }

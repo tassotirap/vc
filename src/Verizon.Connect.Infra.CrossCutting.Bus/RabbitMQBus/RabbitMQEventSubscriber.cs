@@ -1,91 +1,99 @@
 ﻿namespace Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus
 {
-    using Microsoft.Extensions.Options;
-    using Newtonsoft.Json;
-    using RabbitMQ.Client;
-    using RabbitMQ.Client.Events;
-    using System;
     using System.Collections.Generic;
     using System.Text;
+
+    using Microsoft.Extensions.Options;
+
+    using Newtonsoft.Json;
+
+    using RabbitMQ.Client;
+    using RabbitMQ.Client.Events;
+
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Core.Events;
     using Verizon.Connect.Infra.CrossCutting.Bus.RabbitMQBus.Options;
 
-    public class RabbitMQEventSubscriber<T> :
-       IEventSubscriber<T>,
-       IDisposable
-       where T : Event
+    public class RabbitMQEventSubscriber<T> : IEventSubscriber<T>
+        where T : Event
     {
-        private IConnection connection;
-        private IModel channel;
+        private readonly List<IModel> channels;
 
-        private readonly IList<IEventRecived<T>> listEventRecived;
+        private readonly List<IConnection> connections;
+
+        private readonly IList<IEventRecived<T>> listEventReceived;
+
         private readonly IOptions<RabbitMQOptions> options;
 
         public RabbitMQEventSubscriber(IOptions<RabbitMQOptions> options)
         {
-            this.listEventRecived = new List<IEventRecived<T>>();
+            this.listEventReceived = new List<IEventRecived<T>>();
             this.options = options;
+            this.connections = new List<IConnection>();
+            this.channels = new List<IModel>();
         }
 
         public void Dispose()
         {
-            this.channel?.Dispose();
-            this.connection?.Dispose();
-        }
-
-        public void Subscribe(IEventRecived<T> eventRecived)
-        {
-            this.listEventRecived.Add(eventRecived);
-        }
-
-        public void Subscribe(IEnumerable<IEventRecived<T>> eventReciveds)
-        {
-            foreach (IEventRecived<T> eventRecived in eventReciveds)
+            foreach (var channel in this.channels)
             {
-                this.Subscribe(eventRecived);
+                channel?.Dispose();
             }
-        }
 
-        private void CreateChannel()
-        {
-            this.connection = new ConnectionFactory()
+            foreach (var connection in this.connections)
             {
-                HostName = this.options.Value.HostName,
-                DispatchConsumersAsync = true
-            }.CreateConnection();
-
-            this.channel = this.connection.CreateModel();
+                connection?.Dispose();
+            }
         }
 
         public void StartConsumer()
         {
-            this.CreateChannel();
-
-            this.channel.ExchangeDeclare(this.options.Value.Exchange, ExchangeType.Direct);
-
-            this.channel.QueueDeclare(this.options.Value.QueueName, true, false, false, null);
-
-            this.channel.QueueBind(this.options.Value.QueueName, this.options.Value.Exchange, string.Empty, null);
-
-            this.channel.BasicQos(0, 100, false);
-
-            AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(this.channel);
-            consumer.Received += async (ch, ea) =>
+            for (var consumers = 0; consumers < this.options.Value.NumberOfConsumers; consumers++)
             {
-                string body = Encoding.UTF8.GetString(ea.Body);
+                var channel = this.CreateChannel();
 
-                T @object = JsonConvert.DeserializeObject<T>(body);
+                channel.ExchangeDeclare(this.options.Value.Exchange, ExchangeType.Direct);
 
-                foreach (IEventRecived<T> eventRecived in this.listEventRecived)
-                {
-                    await eventRecived.EventRecivedAsync(@object);
-                }
+                channel.QueueDeclare(this.options.Value.QueueName, true, false, false, null);
 
-                this.channel.BasicAck(ea.DeliveryTag, false);
-            };
+                channel.QueueBind(this.options.Value.QueueName, this.options.Value.Exchange, string.Empty, null);
 
-            this.channel.BasicConsume(this.options.Value.QueueName, false, consumer);
+                channel.BasicQos(0, 100, false);
+
+                var consumer = new AsyncEventingBasicConsumer(channel);
+                consumer.Received += async (ch, ea) =>
+                    {
+                        var body = Encoding.UTF8.GetString(ea.Body);
+
+                        var @object = JsonConvert.DeserializeObject<T>(body);
+
+                        foreach (var eventReceived in this.listEventReceived)
+                        {
+                            await eventReceived.EventReceived(@object);
+                        }
+
+                        channel.BasicAck(ea.DeliveryTag, false);
+                    };
+
+                channel.BasicConsume(this.options.Value.QueueName, false, consumer);
+            }
+        }
+
+        public void Subscribe(IEventRecived<T> eventReceived)
+        {
+            this.listEventReceived.Add(eventReceived);
+        }
+
+        private IModel CreateChannel()
+        {
+            var connection = new ConnectionFactory() { HostName = this.options.Value.HostName, DispatchConsumersAsync = true }.CreateConnection();
+
+            var channel = connection.CreateModel();
+
+            this.connections.Add(connection);
+            this.channels.Add(channel);
+
+            return channel;
         }
     }
 }

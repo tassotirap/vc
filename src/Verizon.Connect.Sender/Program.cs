@@ -1,39 +1,39 @@
 ﻿namespace Verizon.Connect.Sender
 {
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
     using System;
     using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+
+    using Verizon.Connect.Application.Interfaces;
     using Verizon.Connect.Sender.DI;
 
-    class Program
+    public class Program
     {
-        static async Task Main(string[] args)
+        private static IServiceProvider serviceProvider;
+
+        private static ILogger<Program> logger;
+
+        public static async Task Start(int vehicleId, int interval)
         {
-            (int vehicle, int interval) = GetVehicleAndInterval(args);
-            if (vehicle == 0)
+            logger.LogInformation("Sender started");
+
+            var senderApplication = new SenderService(serviceProvider.GetService<IPlotAppService>(), serviceProvider.GetService<ILogger<SenderService>>());
+
+            while (true)
             {
-                throw new ArgumentException("Vehicle or Iterval should greater than 0");
+                await senderApplication.GenerateRandomPlot(vehicleId);
+                await Task.Delay(interval);
             }
-
-            Console.Write("Working...");
-
-            IConfiguration configuration = GetConfiguration();
-            IServiceCollection serviceCollection = new ServiceCollection();
-
-            serviceCollection.AddSenderServices(configuration);
-
-            ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-
-            SenderService senderApplication = serviceProvider.GetService<SenderService>();
-            await senderApplication.Start(vehicle, interval);
         }
 
         private static IConfiguration GetConfiguration()
         {
             return new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", false, true)
                 .Build();
         }
 
@@ -41,14 +41,39 @@
         {
             if (args.Length == 4)
             {
-                if (int.TryParse(args[1], out int vehicle) && int.TryParse(args[3], out int interval))
+                if (int.TryParse(args[1], out var vehicle) && int.TryParse(args[3], out var interval))
                 {
                     return (vehicle, interval);
                 }
             }
 
             return (0, 0);
+        }
 
+        private static async Task Main(string[] args)
+        {
+            var (vehicle, interval) = GetVehicleAndInterval(args);
+            if (vehicle == 0)
+            {
+                throw new ArgumentException("Vehicle or Interval should greater than 0");
+            }
+
+            var configuration = GetConfiguration();
+
+            var serviceCollection = new ServiceCollection();
+
+            serviceCollection.AddSenderServices(configuration);
+
+            serviceCollection.AddLogging(configure => 
+                configure
+                    .AddConsole()
+                    .AddConfiguration(configuration.GetSection("Logging")));
+
+            serviceProvider = serviceCollection.BuildServiceProvider();
+
+            logger = serviceProvider.GetService<ILogger<Program>>();
+
+            await Start(vehicle, interval);
         }
     }
 }

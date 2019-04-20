@@ -8,8 +8,10 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
-    <ProjectReference Include="..\src\Verizon.Connect.Domain.Core\Verizon.Connect.Domain.Core.csproj" />
-    <ProjectReference Include="..\src\Verizon.Connect.Domain\Verizon.Connect.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Verizon.Connect.Domain\Verizon.Connect.Domain.csproj" />
   </ItemGroup>
 
 </Project>

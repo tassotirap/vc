@@ -2,6 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Logging;
+
     using Verizon.Connect.Application.Interfaces;
     using Verizon.Connect.Domain.Plot.Enums;
     using Verizon.Connect.Domain.Plot.Models;
@@ -9,74 +12,75 @@
     public class SenderService
     {
         private readonly IPlotAppService plotAppService;
+
+        private readonly ILogger<SenderService> logger;
+
         private readonly Random random;
-        private int vehicleId;
+
         private EventCode currentEventCode;
+
         private int lastTimeStamp;
 
-        public SenderService(IPlotAppService plotAppService)
+        public SenderService(IPlotAppService plotAppService, 
+                             ILogger<SenderService> logger)
         {
             this.plotAppService = plotAppService;
-            random = new Random();
+            this.logger = logger;
+            this.random = new Random();
         }
 
-        public async Task Start(int vehicleId, int interval)
+        /// <summary>
+        /// Generate a new RandomPlot
+        /// </summary>
+        /// <param name="vehicleId">Vehicle Id</param>
+        /// <param name="movementStateChange">Chance to do Movement instead of IgnitionOff</param>
+        /// <returns>Async Task</returns>
+        public async Task GenerateRandomPlot(int vehicleId, double movementStateChange = 0.95)
         {
-            this.vehicleId = vehicleId;
+            this.logger.LogTrace("Generating a new Plot");
 
-            while (true)
+            PlotEntity plotEntity;
+            if (this.lastTimeStamp == 0)
             {
-                PlotEntity plotEntity = GenerateRandomPlot();
-                await plotAppService.Register(plotEntity);
-                await Task.Delay(interval);
-            }
-        }
-
-        private PlotEntity GenerateRandomPlot()
-        {
-            // Start
-            if (lastTimeStamp == 0)
-            {
-                currentEventCode = EventCode.IgnitionOn;
-                return GeneratePlot(EventCode.IgnitionOn);
-            }
-
-            if (currentEventCode == EventCode.IgnitionOn)
-            {
-                currentEventCode = EventCode.Movement;
-                return GeneratePlot(EventCode.Movement);
-            }
-
-            if (currentEventCode == EventCode.IgnitionOff)
-            {
-                currentEventCode = EventCode.IgnitionOn;
-                return GeneratePlot(EventCode.IgnitionOn);
-            }
-
-            if (random.NextDouble() < 0.95)
-            {
-                currentEventCode = EventCode.Movement;
-                return GeneratePlot(EventCode.Movement);
+                this.currentEventCode = EventCode.IgnitionOn;
+                plotEntity = this.GeneratePlot(vehicleId, EventCode.IgnitionOn);
             }
             else
             {
-                currentEventCode = EventCode.IgnitionOff;
-                return GeneratePlot(EventCode.IgnitionOff);
+                switch (this.currentEventCode)
+                {
+                    case EventCode.IgnitionOff:
+                        this.currentEventCode = EventCode.IgnitionOn;
+                        plotEntity = this.GeneratePlot(vehicleId, EventCode.IgnitionOn);
+                        break;
+                    default:
+                        {
+                            if (this.random.NextDouble() < movementStateChange)
+                            {
+                                this.currentEventCode = EventCode.Movement;
+                                plotEntity = this.GeneratePlot(vehicleId, EventCode.Movement);
+                            }
+                            else
+                            {
+                                this.currentEventCode = EventCode.IgnitionOff;
+                                plotEntity = this.GeneratePlot(vehicleId, EventCode.IgnitionOff);
+                            }
+
+                            break;
+                        }
+                }
             }
+
+            await this.plotAppService.Register(plotEntity);
+
+            this.logger.LogTrace("Generated a new Plot");
         }
 
-        private PlotEntity GeneratePlot(EventCode eventCode)
+        private PlotEntity GeneratePlot(int vehicleId, EventCode eventCode)
         {
-            PlotEntity plotEntity = new PlotEntity
-            {
-                EventCode = eventCode,
-                Lat = $"la{lastTimeStamp}",
-                Lon = $"lo{lastTimeStamp}",
-                TimeStamp = $"t{lastTimeStamp}",
-                VId = $"VId{this.vehicleId}"
-            };
+            var plotEntity = new PlotEntity(vehicleId, this.lastTimeStamp, eventCode);
 
-            lastTimeStamp++;
+            this.lastTimeStamp++;
 
             return plotEntity;
         }

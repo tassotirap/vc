@@ -2,6 +2,7 @@
 {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+
     using Verizon.Connect.Application.Interfaces;
     using Verizon.Connect.Application.Services;
     using Verizon.Connect.Domain.Core.Bus;
@@ -15,15 +16,10 @@
         {
             services.Configure<RabbitMQOptions>(configuration.GetSection("RabbitMQ"));
 
-            services.AddSingleton<IEventEmitter<RegisterNewPlotEvent>, RabbitMQEventEmitter<RegisterNewPlotEvent>>();
+            services.AddSingleton<IEventEmitter<RegisterPlotEvent>, RabbitMQEventEmitter<RegisterPlotEvent>>();
 
             // Application
             services.AddSingleton<IPlotAppService, PlotAppService>();
-
-            // Application
-            services.AddSingleton<SenderService>();
-
-
         }
     }
 }

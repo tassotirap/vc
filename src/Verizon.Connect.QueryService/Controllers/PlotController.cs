@@ -1,9 +1,12 @@
 ﻿namespace Verizon.Connect.QueryService.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Verizon.Connect.Domain.Plot.Dto;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+
+    using Verizon.Connect.Domain.Plot.Models;
     using Verizon.Connect.Domain.Plot.Repositories;
 
     [Route("api/[controller]")]
@@ -12,17 +15,25 @@
     {
         private readonly IPlotRepository plotRepository;
 
-        public PlotController(IPlotRepository plotRepository)
+        private readonly ILogger<PlotController> logger;
+
+        public PlotController(IPlotRepository plotRepository,
+                              ILogger<PlotController> logger)
         {
             this.plotRepository = plotRepository;
+            this.logger = logger;
         }
 
-        // GET api/values/5
         [HttpGet("{id}/{start}/{end}")]
-        public async Task<ActionResult<IEnumerable<PlotQueryDto>>> Get(int id, int start, int end)
+        public async Task<ActionResult<IEnumerable<PlotEntity>>> Get(int id, int start, int end)
         {
+            this.logger.LogTrace($"Getting id:{id}, start:{start}, end:{end}");
+
             var result = await this.plotRepository.QueryByTimeFrame(id, start, end);
-            return Ok(result);
+
+            this.logger.LogTrace($"Got id:{id}, start:{start}, end:{end}");
+
+            return this.Ok(result);
         }
     }
 }

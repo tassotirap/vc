@@ -1,20 +1,27 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <Folder Include="Bus\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Verizon.Connect.Domain.Core\Verizon.Connect.Domain.Core.csproj" />
+    <PackageReference Include="NSubstitute" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Verizon.Connect.Domain\Verizon.Connect.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions">
       <HintPath>C:\Program Files (x86)\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.logging.abstractions\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions">
+      <HintPath>C:\Users\G1745 IRON\.nuget\packages\xunit.abstractions\2.0.2\lib\netstandard2.0\xunit.abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
 

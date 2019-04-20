@@ -13,11 +13,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Sender", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Infra.CrossCutting.Bus", "src\Verizon.Connect.Infra.CrossCutting.Bus\Verizon.Connect.Infra.CrossCutting.Bus.csproj", "{C0BD3103-C4CE-4E2F-93A4-A8076306D9F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.Receiver", "src\Verizon.Connect.Receiver\Verizon.Connect.Receiver.csproj", "{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Receiver", "src\Verizon.Connect.Receiver\Verizon.Connect.Receiver.csproj", "{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.Infra.Data", "Verizon.Connect.Infra.Data\Verizon.Connect.Infra.Data.csproj", "{7D8E0BFD-0F37-4232-A287-3C05A77DB153}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.QueryService", "src\Verizon.Connect.QueryService\Verizon.Connect.QueryService.csproj", "{9B388392-8A96-44A1-96E4-1A09F7D93E47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.QueryService", "src\Verizon.Connect.QueryService\Verizon.Connect.QueryService.csproj", "{9B388392-8A96-44A1-96E4-1A09F7D93E47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Infra.Data", "src\Verizon.Connect.Infra.Data\Verizon.Connect.Infra.Data.csproj", "{7F5373DE-AFB2-48B3-A5E2-D98FBE6F5EE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{426443E2-DA47-460F-97FD-27F1E6E4AA1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Domain.Tests", "tests\Verizon.Connect.Domain.Tests\Verizon.Connect.Domain.Tests.csproj", "{D4FDCB25-CAF0-4D1B-8F03-57D9D3C35E5C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Tests", "tests\Verizon.Connect.Tests\Verizon.Connect.Tests.csproj", "{B6A1579B-ECC7-4266-BB8D-313FD66AAA18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Verizon.Connect.Sender.Tests", "tests\Verizon.Connect.Sender.Tests\Verizon.Connect.Sender.Tests.csproj", "{84ED40D1-764F-4666-855A-0F53353677E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Verizon.Connect.Application.Services", "tests\Verizon.Connect.Application.Services\Verizon.Connect.Application.Services.csproj", "{DAB9C6D2-1A52-4874-94A2-80AD223B2288}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,17 +59,39 @@ Global
 		{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AAC85FB-6210-4DD0-BBC7-49FBDBD7474C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D8E0BFD-0F37-4232-A287-3C05A77DB153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D8E0BFD-0F37-4232-A287-3C05A77DB153}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D8E0BFD-0F37-4232-A287-3C05A77DB153}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D8E0BFD-0F37-4232-A287-3C05A77DB153}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9B388392-8A96-44A1-96E4-1A09F7D93E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9B388392-8A96-44A1-96E4-1A09F7D93E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B388392-8A96-44A1-96E4-1A09F7D93E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B388392-8A96-44A1-96E4-1A09F7D93E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5373DE-AFB2-48B3-A5E2-D98FBE6F5EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5373DE-AFB2-48B3-A5E2-D98FBE6F5EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5373DE-AFB2-48B3-A5E2-D98FBE6F5EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5373DE-AFB2-48B3-A5E2-D98FBE6F5EE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4FDCB25-CAF0-4D1B-8F03-57D9D3C35E5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4FDCB25-CAF0-4D1B-8F03-57D9D3C35E5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4FDCB25-CAF0-4D1B-8F03-57D9D3C35E5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4FDCB25-CAF0-4D1B-8F03-57D9D3C35E5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A1579B-ECC7-4266-BB8D-313FD66AAA18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A1579B-ECC7-4266-BB8D-313FD66AAA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A1579B-ECC7-4266-BB8D-313FD66AAA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A1579B-ECC7-4266-BB8D-313FD66AAA18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84ED40D1-764F-4666-855A-0F53353677E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84ED40D1-764F-4666-855A-0F53353677E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84ED40D1-764F-4666-855A-0F53353677E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84ED40D1-764F-4666-855A-0F53353677E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAB9C6D2-1A52-4874-94A2-80AD223B2288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAB9C6D2-1A52-4874-94A2-80AD223B2288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAB9C6D2-1A52-4874-94A2-80AD223B2288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAB9C6D2-1A52-4874-94A2-80AD223B2288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D4FDCB25-CAF0-4D1B-8F03-57D9D3C35E5C} = {426443E2-DA47-460F-97FD-27F1E6E4AA1C}
+		{B6A1579B-ECC7-4266-BB8D-313FD66AAA18} = {426443E2-DA47-460F-97FD-27F1E6E4AA1C}
+		{84ED40D1-764F-4666-855A-0F53353677E1} = {426443E2-DA47-460F-97FD-27F1E6E4AA1C}
+		{DAB9C6D2-1A52-4874-94A2-80AD223B2288} = {426443E2-DA47-460F-97FD-27F1E6E4AA1C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F9B42DBA-6776-4BFD-AA44-0C6B667D261B}
