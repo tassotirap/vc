@@ -3,12 +3,12 @@ namespace Verizon.Connect.Domain.Tests
     using System;
     using System.Threading.Tasks;
 
+    using Verizon.Connect.BaseTests.Logger;
+    using Verizon.Connect.BaseTests.Repository;
     using Verizon.Connect.Domain.Plot.Enums;
     using Verizon.Connect.Domain.Plot.EventHandlers;
     using Verizon.Connect.Domain.Plot.Events;
     using Verizon.Connect.Domain.Plot.Models;
-    using Verizon.Connect.Tests.Logger;
-    using Verizon.Connect.Tests.Repository;
 
     using Xunit;
     using Xunit.Abstractions;

@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Verizon.Connect.QueryService.ViewModel
+﻿namespace Verizon.Connect.QueryService.ViewModel
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class PlotQueryRequest
     {
-        public int VId { get; set; }
+        [Required]
+        public DateTime? EndDateTime { get; set; }
+
+        [Required]
+        public DateTime? StartDateTime { get; set; }
+
+        [Required]
+        public int? VId { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Verizon.Connect.Tests.Repository
+﻿namespace Verizon.Connect.BaseTests.Repository
 {
     using System;
     using System.Collections.Generic;
@@ -17,9 +17,9 @@
             return Task.FromResult(true);
         }
 
-        public Task<IEnumerable<PlotQueryResultDto>> QueryByTimeFrame(int vId, DateTime initialTimeStamp, DateTime finalTimeStamp)
+        public async Task<IEnumerable<PlotQueryResultDto>> QueryByTimeFrame(int vId, DateTime initialTimeStamp, DateTime finalTimeStamp)
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(new List<PlotQueryResultDto>());
         }
 
         private string GetKey(PlotEntity plotEntity)

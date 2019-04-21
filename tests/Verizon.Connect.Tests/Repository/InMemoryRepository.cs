@@ -1,4 +1,4 @@
-﻿namespace Verizon.Connect.Tests.Repository
+﻿namespace Verizon.Connect.BaseTests.Repository
 {
     using System.Collections.Generic;
 

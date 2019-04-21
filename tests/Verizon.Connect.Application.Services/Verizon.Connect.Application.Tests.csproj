@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Verizon.Connect.Application\Verizon.Connect.Application.csproj" />
-    <ProjectReference Include="..\Verizon.Connect.Tests\Verizon.Connect.Tests.csproj" />
+    <ProjectReference Include="..\Verizon.Connect.Tests\Verizon.Connect.BaseTests.csproj" />
   </ItemGroup>
 
   <ItemGroup>

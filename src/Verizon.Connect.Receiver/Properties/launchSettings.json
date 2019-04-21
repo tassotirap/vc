@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Verizon.Connect.Receiver": {
+      "commandName": "Project",
+      "commandLineArgs": "--console"
+    }
+  }
+}

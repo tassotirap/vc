@@ -1,8 +1,10 @@
-﻿namespace Verizon.Connect.Tests.Logger
+﻿namespace Verizon.Connect.BaseTests.Logger
 {
-    using Microsoft.Extensions.Logging;
-    using NSubstitute;
     using System;
+
+    using Microsoft.Extensions.Logging;
+
+    using NSubstitute;
 
     using Xunit.Abstractions;
 

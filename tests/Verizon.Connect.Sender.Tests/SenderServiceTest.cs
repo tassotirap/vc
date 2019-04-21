@@ -6,9 +6,9 @@ namespace Verizon.Connect.Sender.Tests
 
     using Verizon.Connect.Application.Interfaces;
     using Verizon.Connect.Application.Services;
+    using Verizon.Connect.BaseTests.Logger;
     using Verizon.Connect.Domain.Plot.Enums;
     using Verizon.Connect.Domain.Plot.Models;
-    using Verizon.Connect.Tests.Logger;
 
     using Xunit;
     using Xunit.Abstractions;

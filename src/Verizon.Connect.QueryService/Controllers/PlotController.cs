@@ -8,8 +8,8 @@
     using Microsoft.Extensions.Logging;
 
     using Verizon.Connect.Domain.Plot.Dto;
-    using Verizon.Connect.Domain.Plot.Models;
     using Verizon.Connect.Domain.Plot.Repositories;
+    using Verizon.Connect.QueryService.ViewModel;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -26,14 +26,19 @@
             this.logger = logger;
         }
 
-        [HttpGet("{id}/{start}/{end}")]
-        public async Task<ActionResult<IEnumerable<PlotQueryResultDto>>> Get(int id, DateTime start, DateTime end)
+        [HttpGet("{VId}/{StartDateTime}/{EndDateTime}")]
+        public async Task<ActionResult<IEnumerable<PlotQueryResultDto>>> Get([FromRoute]PlotQueryRequest request)
         {
-            this.logger.LogTrace($"Getting id:{id}, start:{start}, end:{end}");
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
 
-            var result = await this.plotRepository.QueryByTimeFrame(id, start, end);
+            this.logger.LogTrace($"Getting id:{request.VId}, start:{request.StartDateTime}, end:{request.EndDateTime}");
 
-            this.logger.LogTrace($"Got id:{id}, start:{start}, end:{end}");
+            var result = await this.plotRepository.QueryByTimeFrame(request.VId.GetValueOrDefault(), request.StartDateTime.GetValueOrDefault(), request.EndDateTime.GetValueOrDefault());
+
+            this.logger.LogTrace($"Got id:{request.VId}, start:{request.StartDateTime}, end:{request.EndDateTime}");
 
             return this.Ok(result);
         }

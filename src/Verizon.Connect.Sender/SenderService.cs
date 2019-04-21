@@ -15,8 +15,6 @@
 
         private readonly Random random;
 
-        private DateTime date;
-
         private EventCode currentEventCode;
 
         private int coordinates;
@@ -27,7 +25,6 @@
             this.plotAppService = plotAppService;
             this.logger = logger;
             this.random = new Random();
-            this.date = DateTime.Now;
         }
 
         /// <summary>
@@ -79,11 +76,9 @@
 
         private PlotEntity GeneratePlot(int vehicleId, EventCode eventCode)
         {
-            var plotEntity = new PlotEntity(vehicleId, this.coordinates, this.coordinates, this.date, eventCode);
+            var plotEntity = new PlotEntity(vehicleId, this.coordinates, this.coordinates, DateTime.Now, eventCode);
 
             this.coordinates++;
-
-            this.date = this.date.AddMinutes(1);
 
             return plotEntity;
         }

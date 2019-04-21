@@ -12,9 +12,32 @@
 
     public class Program
     {
+        private static ILogger<Program> logger;
+
         private static IServiceProvider serviceProvider;
 
-        private static ILogger<Program> logger;
+        public static async Task Main(string[] args)
+        {
+            var (vehicle, interval) = GetVehicleAndInterval(args);
+            if (vehicle == 0)
+            {
+                throw new ArgumentException("Vehicle or Interval should greater than 0");
+            }
+
+            var configuration = GetConfiguration();
+
+            var serviceCollection = new ServiceCollection();
+
+            serviceCollection.AddSenderServices(configuration);
+
+            serviceCollection.AddLogging(configure => configure.AddConsole().AddConfiguration(configuration.GetSection("Logging")));
+
+            serviceProvider = serviceCollection.BuildServiceProvider();
+
+            logger = serviceProvider.GetService<ILogger<Program>>();
+
+            await Start(vehicle, interval);
+        }
 
         public static async Task Start(int vehicleId, int interval)
         {
@@ -31,10 +54,7 @@
 
         private static IConfiguration GetConfiguration()
         {
-            return new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json", false, true)
-                .Build();
+            return new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json", false, true).Build();
         }
 
         private static (int, int) GetVehicleAndInterval(string[] args)
@@ -48,32 +68,6 @@
             }
 
             return (0, 0);
-        }
-
-        private static async Task Main(string[] args)
-        {
-            var (vehicle, interval) = GetVehicleAndInterval(args);
-            if (vehicle == 0)
-            {
-                throw new ArgumentException("Vehicle or Interval should greater than 0");
-            }
-
-            var configuration = GetConfiguration();
-
-            var serviceCollection = new ServiceCollection();
-
-            serviceCollection.AddSenderServices(configuration);
-
-            serviceCollection.AddLogging(configure => 
-                configure
-                    .AddConsole()
-                    .AddConfiguration(configuration.GetSection("Logging")));
-
-            serviceProvider = serviceCollection.BuildServiceProvider();
-
-            logger = serviceProvider.GetService<ILogger<Program>>();
-
-            await Start(vehicle, interval);
         }
     }
 }

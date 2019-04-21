@@ -1,15 +1,15 @@
-namespace Verizon.Connect.Application.Services
+namespace Verizon.Connect.Application.Tests
 {
     using System;
 
     using NSubstitute;
 
+    using Verizon.Connect.Application.Services;
+    using Verizon.Connect.BaseTests.Logger;
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Plot.Enums;
-    using Verizon.Connect.Domain.Plot.EventHandlers;
     using Verizon.Connect.Domain.Plot.Events;
     using Verizon.Connect.Domain.Plot.Models;
-    using Verizon.Connect.Tests.Logger;
 
     using Xunit;
     using Xunit.Abstractions;
