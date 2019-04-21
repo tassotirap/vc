@@ -1,5 +1,6 @@
 ﻿namespace Verizon.Connect.Domain.Plot.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -10,6 +11,6 @@
     {
         Task<bool> Add(PlotEntity plotEntity);
 
-        Task<IEnumerable<PlotQueryResultDto>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp);
+        Task<IEnumerable<PlotQueryResultDto>> QueryByTimeFrame(int vId, DateTime initialTimeStamp, DateTime finalTimeStamp);
     }
 }

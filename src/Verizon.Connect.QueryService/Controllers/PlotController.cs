@@ -1,5 +1,6 @@
 ﻿namespace Verizon.Connect.QueryService.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@
         }
 
         [HttpGet("{id}/{start}/{end}")]
-        public async Task<ActionResult<IEnumerable<PlotQueryResultDto>>> Get(int id, int start, int end)
+        public async Task<ActionResult<IEnumerable<PlotQueryResultDto>>> Get(int id, DateTime start, DateTime end)
         {
             this.logger.LogTrace($"Getting id:{id}, start:{start}, end:{end}");
 

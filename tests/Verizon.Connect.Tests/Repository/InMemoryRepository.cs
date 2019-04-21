@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Verizon.Connect.Tests.Repository
+﻿namespace Verizon.Connect.Tests.Repository
 {
+    using System.Collections.Generic;
+
     public abstract class InMemoryRepository
     {
         public IDictionary<string, object> Items;

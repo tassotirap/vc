@@ -1,10 +1,8 @@
 ﻿namespace Verizon.Connect.Sender
 {
+    using Microsoft.Extensions.Logging;
     using System;
     using System.Threading.Tasks;
-
-    using Microsoft.Extensions.Logging;
-
     using Verizon.Connect.Application.Interfaces;
     using Verizon.Connect.Domain.Plot.Enums;
     using Verizon.Connect.Domain.Plot.Models;
@@ -17,16 +15,19 @@
 
         private readonly Random random;
 
+        private DateTime date;
+
         private EventCode currentEventCode;
 
-        private int lastTimeStamp;
+        private int coordinates;
 
-        public SenderService(IPlotAppService plotAppService, 
+        public SenderService(IPlotAppService plotAppService,
                              ILogger<SenderService> logger)
         {
             this.plotAppService = plotAppService;
             this.logger = logger;
             this.random = new Random();
+            this.date = DateTime.Now;
         }
 
         /// <summary>
@@ -40,7 +41,7 @@
             this.logger.LogTrace("Generating a new Plot");
 
             PlotEntity plotEntity;
-            if (this.lastTimeStamp == 0)
+            if (this.coordinates == 0)
             {
                 this.currentEventCode = EventCode.IgnitionOn;
                 plotEntity = this.GeneratePlot(vehicleId, EventCode.IgnitionOn);
@@ -78,9 +79,11 @@
 
         private PlotEntity GeneratePlot(int vehicleId, EventCode eventCode)
         {
-            var plotEntity = new PlotEntity(vehicleId, this.lastTimeStamp, eventCode);
+            var plotEntity = new PlotEntity(vehicleId, this.coordinates, this.coordinates, this.date, eventCode);
 
-            this.lastTimeStamp++;
+            this.coordinates++;
+
+            this.date = this.date.AddMinutes(1);
 
             return plotEntity;
         }

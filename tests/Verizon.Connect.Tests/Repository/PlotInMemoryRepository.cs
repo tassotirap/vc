@@ -1,5 +1,6 @@
 ﻿namespace Verizon.Connect.Tests.Repository
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@
             return Task.FromResult(true);
         }
 
-        public Task<IEnumerable<PlotQueryResultDto>> QueryByTimeFrame(int vId, int initialTimeStamp, int finalTimeStamp)
+        public Task<IEnumerable<PlotQueryResultDto>> QueryByTimeFrame(int vId, DateTime initialTimeStamp, DateTime finalTimeStamp)
         {
             throw new System.NotImplementedException();
         }
@@ -26,14 +27,9 @@
             return this.GetKey(plotEntity.VId, plotEntity.TimeStamp);
         }
 
-        private string GetKey(string vid, string timeStamp)
+        private string GetKey(int vid, DateTime timeStamp)
         {
-            return $"Plot:{vid}:{timeStamp}";
-        }
-
-        private string GetKey(int vid, int timeStamp)
-        {
-            return $"Plot:VId{vid}:t{timeStamp}";
+            return $"Plot:{vid}:{this.Items.Count}";
         }
     }
 }

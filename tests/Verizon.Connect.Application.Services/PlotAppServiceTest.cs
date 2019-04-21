@@ -1,5 +1,7 @@
 namespace Verizon.Connect.Application.Services
 {
+    using System;
+
     using NSubstitute;
 
     using Verizon.Connect.Domain.Core.Bus;
@@ -32,7 +34,7 @@ namespace Verizon.Connect.Application.Services
         [Fact(DisplayName = "[Success] - Register event IgnitionOff")]
         public void RegisterIgnitionOffSuccess()
         {
-            var entity = new PlotEntity(Vehicleid, 0, EventCode.IgnitionOff);
+            var entity = new PlotEntity(Vehicleid, 12, 12, DateTime.Now, EventCode.IgnitionOff);
 
             this.plotAppService.Register(entity);
 
@@ -42,7 +44,7 @@ namespace Verizon.Connect.Application.Services
         [Fact(DisplayName = "[Success] - Register event IgnitionOn")]
         public void RegisterIgnitionOnSuccess()
         {
-            var entity = new PlotEntity(Vehicleid, 0, EventCode.IgnitionOn);
+            var entity = new PlotEntity(Vehicleid, 10, 10, DateTime.Now, EventCode.IgnitionOn);
 
             this.plotAppService.Register(entity);
 
@@ -52,7 +54,7 @@ namespace Verizon.Connect.Application.Services
         [Fact(DisplayName = "[Success] - Register event Movement")]
         public void RegisterMovementSuccess()
         {
-            var entity = new PlotEntity(Vehicleid, 0, EventCode.Movement);
+            var entity = new PlotEntity(Vehicleid, 11, 11, DateTime.Now, EventCode.Movement);
 
             this.plotAppService.Register(entity);
 
