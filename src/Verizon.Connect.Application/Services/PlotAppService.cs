@@ -4,8 +4,6 @@
 
     using Microsoft.Extensions.Logging;
 
-    using Newtonsoft.Json;
-
     using Verizon.Connect.Application.Interfaces;
     using Verizon.Connect.Domain.Core.Bus;
     using Verizon.Connect.Domain.Plot.Events;

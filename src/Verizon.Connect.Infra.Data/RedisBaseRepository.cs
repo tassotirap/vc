@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.Options;
@@ -19,24 +20,17 @@
         public RedisRepository(IOptions<RedisOptions> options)
         {
             var configurationOptions = new ConfigurationOptions
-                                           {
-                                               EndPoints = {
-                                                              options.Value.HostName 
-                                                           },
-                                               KeepAlive = 10,
-                                               AbortOnConnectFail = false,
-                                               ConfigurationChannel = string.Empty,
-                                               TieBreaker = string.Empty,
-                                               ConfigCheckSeconds = 0,
-                                               CommandMap = CommandMap.Create(
-                                                   new HashSet<string>
-                                                       {
-                                                           // EXCLUDE a few commands
-                                                           "SUBSCRIBE", "UNSUBSCRIBE", "CLUSTER"
-                                                       },
-                                                   available: false),
-                                               AllowAdmin = true
-                                           };
+            {
+                EndPoints = {
+                              options.Value.HostName
+                           },
+                KeepAlive = 10,
+                AbortOnConnectFail = false,
+                ConfigurationChannel = string.Empty,
+                TieBreaker = string.Empty,
+                ConfigCheckSeconds = 0,
+                AllowAdmin = true
+            };
 
             this.lazyConnection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(configurationOptions));
         }
@@ -113,6 +107,20 @@
             }
 
             return list;
+        }
+
+        public async Task<T> GetLastSet<T>(string key, double end)
+        {
+            var item = (await this.Database
+                            .SortedSetRangeByScoreAsync(key, double.NegativeInfinity, end, order: Order.Descending, take: 1))
+                            .FirstOrDefault();
+
+            if (item.HasValue)
+            {
+                return JsonConvert.DeserializeObject<T>(item);
+            }
+
+            return default(T);
         }
     }
 }

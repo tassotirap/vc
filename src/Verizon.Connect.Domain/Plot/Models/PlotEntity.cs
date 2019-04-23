@@ -5,6 +5,9 @@
     using Verizon.Connect.Domain.Core.Models;
     using Verizon.Connect.Domain.Plot.Enums;
 
+    /// <summary>
+    /// Plot Entity
+    /// </summary>
     public class PlotEntity : Entity
     {
         public PlotEntity()

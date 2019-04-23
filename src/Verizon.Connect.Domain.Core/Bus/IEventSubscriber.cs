@@ -4,11 +4,11 @@
 
     using Verizon.Connect.Domain.Core.Events;
 
-    public interface IEventSubscriber<T> : IDisposable
+    public interface IEventSubscriber<out T> : IDisposable
         where T : Event
     {
         void StartConsumer();
 
-        void Subscribe(IEventRecived<T> eventRecived);
+        void Subscribe(IEventReceived<T> eventReceived);
     }
 }

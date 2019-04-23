@@ -2,13 +2,16 @@
 {
     using System;
 
+    /// <summary>
+    /// Event Base
+    /// </summary>
     public abstract class Event
     {
-        public DateTime Timestamp { get; private set; }
-
         protected Event()
         {
             this.Timestamp = DateTime.Now;
         }
+
+        public DateTime Timestamp { get; private set; }
     }
 }

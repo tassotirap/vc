@@ -8,11 +8,12 @@
     using Newtonsoft.Json;
 
     using Verizon.Connect.Domain.Core.Bus;
+    using Verizon.Connect.Domain.Plot.Enums;
     using Verizon.Connect.Domain.Plot.Events;
     using Verizon.Connect.Domain.Plot.Models;
     using Verizon.Connect.Domain.Plot.Repositories;
 
-    public class PlotEventHandler : IEventRecived<RegisterPlotEvent>
+    public class PlotEventHandler : IEventReceived<RegisterPlotEvent>
     {
         private readonly ILogger<PlotEventHandler> logger;
 
@@ -33,13 +34,13 @@
                 var result = false;
                 switch (@event.Entity.EventCode)
                 {
-                    case Enums.EventCode.IgnitionOn:
+                    case EventCode.IgnitionOn:
                         result = await this.EventIgnitionOnReceived(@event.Entity);
                         break;
-                    case Enums.EventCode.IgnitionOff:
+                    case EventCode.IgnitionOff:
                         result = await this.EventIgnitionOffReceived(@event.Entity);
                         break;
-                    case Enums.EventCode.Movement:
+                    case EventCode.Movement:
                         result = await this.EventMovementReceived(@event.Entity);
                         break;
                 }
@@ -55,12 +56,14 @@
             }
         }
 
-        private async Task<bool> EventIgnitionOffReceived(PlotEntity entity)
+        private async Task<bool> EventIgnitionOnReceived(PlotEntity entity)
         {
-            return await this.plotRepository.Add(entity);
+            return
+                await this.plotRepository.AddIgnitionOn(entity.VId, entity.TimeStamp) &&
+                await this.plotRepository.Add(entity);
         }
 
-        private async Task<bool> EventIgnitionOnReceived(PlotEntity entity)
+        private async Task<bool> EventIgnitionOffReceived(PlotEntity entity)
         {
             return await this.plotRepository.Add(entity);
         }

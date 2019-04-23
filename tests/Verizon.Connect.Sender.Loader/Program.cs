@@ -10,7 +10,7 @@
             var tasks = new List<Task>();
             for (var vId = 1; vId < 100; vId++)
             {
-                var startArgs = new string[] { "-v", vId.ToString(), "-interval", "500" };
+                var startArgs = new string[] { "-v", vId.ToString(), "-interval", "100" };
                 tasks.Add(Sender.Program.Main(startArgs));
             }
 

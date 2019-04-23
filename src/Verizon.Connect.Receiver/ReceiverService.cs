@@ -12,14 +12,14 @@
 
     public class ReceiverService : IHostedService, IDisposable
     {
-        private readonly IEventRecived<RegisterPlotEvent> eventReceived;
+        private readonly IEventReceived<RegisterPlotEvent> eventReceived;
 
         private readonly ILogger<ReceiverService> logger;
 
         private readonly IEventSubscriber<RegisterPlotEvent> eventSubscriber;
 
         public ReceiverService(IEventSubscriber<RegisterPlotEvent> eventSubscriber,
-                               IEventRecived<RegisterPlotEvent> eventReceived,
+                               IEventReceived<RegisterPlotEvent> eventReceived,
                                ILogger<ReceiverService> logger)
         {
             this.eventSubscriber = eventSubscriber;

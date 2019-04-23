@@ -60,7 +60,7 @@ namespace Verizon.Connect.Domain.Tests
             result &= await this.RegisterIgnitionOffEvent(2);
 
             Assert.True(result);
-            Assert.Equal(3, this.plotEventRepository.Items.Count);
+            Assert.Equal(4, this.plotEventRepository.Items.Count);
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:10:0"));
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:10:1"));
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:10:2"));
@@ -74,7 +74,7 @@ namespace Verizon.Connect.Domain.Tests
             result &= await this.RegisterMovementEvent(1);
 
             Assert.True(result);
-            Assert.Equal(2, this.plotEventRepository.Items.Count);
+            Assert.Equal(3, this.plotEventRepository.Items.Count);
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:10:0"));
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:10:1"));
         }
@@ -95,7 +95,7 @@ namespace Verizon.Connect.Domain.Tests
             var result = await this.RegisterIgnitionOnEvent(0);
 
             Assert.True(result);
-            Assert.Equal(1, this.plotEventRepository.Items.Count);
+            Assert.Equal(2, this.plotEventRepository.Items.Count);
             Assert.True(this.plotEventRepository.Items.ContainsKey("Plot:10:0"));
         }
 

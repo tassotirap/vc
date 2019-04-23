@@ -18,7 +18,7 @@
             //RabbitMQ
             services.Configure<RabbitMQOptions>(configuration.GetSection("RabbitMQ"));
             services.AddSingleton<IEventSubscriber<RegisterPlotEvent>, RabbitMQEventSubscriber<RegisterPlotEvent>>();
-            services.AddSingleton<IEventRecived<RegisterPlotEvent>, PlotEventHandler>();
+            services.AddSingleton<IEventReceived<RegisterPlotEvent>, PlotEventHandler>();
 
             //Redis
             services.Configure<RedisOptions>(configuration.GetSection("Redis"));

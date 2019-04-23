@@ -21,13 +21,13 @@
 
         private readonly List<IConnection> connections;
 
-        private readonly IList<IEventRecived<T>> listEventReceived;
+        private readonly IList<IEventReceived<T>> listEventReceived;
 
         private readonly IOptions<RabbitMQOptions> options;
 
         public RabbitMQEventSubscriber(IOptions<RabbitMQOptions> options)
         {
-            this.listEventReceived = new List<IEventRecived<T>>();
+            this.listEventReceived = new List<IEventReceived<T>>();
             this.options = options;
             this.connections = new List<IConnection>();
             this.channels = new List<IModel>();
@@ -79,7 +79,7 @@
             }
         }
 
-        public void Subscribe(IEventRecived<T> eventReceived)
+        public void Subscribe(IEventReceived<T> eventReceived)
         {
             this.listEventReceived.Add(eventReceived);
         }

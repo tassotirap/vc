@@ -3,8 +3,11 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.ResponseCompression;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+
+    using Newtonsoft.Json.Serialization;
 
     using Swashbuckle.AspNetCore.Swagger;
 
@@ -26,7 +29,9 @@
         {
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Verizon.Connect.QueryService"); });
+
+            app.UseResponseCompression();
 
             app.UseMvc();
         }
@@ -34,7 +39,21 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddResponseCompression(
+                options =>
+                    {
+                        options.Providers.Add<BrotliCompressionProvider>();
+                        options.Providers.Add<GzipCompressionProvider>();
+                    });
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(
+                    options =>
+                        {
+                            options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                            options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+                        });
 
             // Redis
             services.Configure<RedisOptions>(this.Configuration.GetSection("Redis"));
@@ -42,6 +61,8 @@
             services.AddSingleton<IPlotRepository, PlotRepository>();
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "Verizon.Connect.QueryService", Version = "v1" }); });
+
+
         }
     }
 }
